@@ -3,11 +3,11 @@ const app = require('./src/app');
 const connectDB = require('./src/config/db');
 
 const PORT = process.env.PORT || 5000;
-const HOST = process.env.HOST || '0.0.0.0';
 
-// Connect Database & Start Server
-connectDB().then(() => {
-  app.listen(PORT, HOST, () => {
-    console.log(`[Server] Running in ${process.env.NODE_ENV || 'development'} mode on ${HOST}:${PORT}`);
-  });
+// Start Express HTTP server immediately on 0.0.0.0 so Render's health check & port scanner pass instantly
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`[Server] Running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
 });
+
+// Connect to MongoDB Atlas in parallel
+connectDB();
